@@ -110,7 +110,7 @@ void ImGui_Impl_RenderDrawLists(ImDrawData* draw_data)
 static const char* ImGui_Impl_GetClipboardText(void* user_data)
 {
 	luaL_dostring(g_L, "return love.system.getClipboardText()");
-	return luaL_checkstring(g_L, 0);
+	return luaL_checkstring(g_L, -1);
 }
 
 static void ImGui_Impl_SetClipboardText(void* user_data, const char* text)
