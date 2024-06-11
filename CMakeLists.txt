@@ -1,5 +1,4 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
-
 IF(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 	# Protip: run cmake like this: cmake -Bbuild -H. or see the readme
 	message(FATAL_ERROR "Prevented in-tree build.")
@@ -45,7 +44,8 @@ TARGET_INCLUDE_DIRECTORIES(love-imgui PUBLIC
 IF(WIN32 OR ANDROID OR IOS)
 	TARGET_LINK_LIBRARIES(love-imgui ${DESIRED_LUA_LIBRARY})
 ELSEIF(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-	TARGET_COMPILE_DEFINITIONS(love-imgui -undefined dynamic_lookup)
+	# TARGET_COMPILE_DEFINITIONS(love-imgui -undefined dynamic_lookup)
+	TARGET_LINK_LIBRARIES(love-imgui ${DESIRED_LUA_LIBRARY})
 ENDIF()
 
 SET_TARGET_PROPERTIES(love-imgui PROPERTIES PREFIX "" OUTPUT_NAME "imgui")
