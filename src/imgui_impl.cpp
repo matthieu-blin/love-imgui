@@ -243,7 +243,7 @@ void NewFrame()
 	DoStringCache::getImgui(g_L);
 	lua_pushboolean(g_L, (int)io.MouseDrawCursor);
 	lua_setfield(g_L, -2, "mouseDrawCursor");
-	luaL_dostring(g_L, "love.mouse.setVisible(not imgui.mouseDrawCursor)");
+	luaL_dostring(g_L, "love.mouse.setVisible((not imgui.mouseDrawCursor) and love.mouse.isVisible())");
 
 	// Init lua data
 	luaL_dostring(g_L, "imgui.textures = nil");
