@@ -365,6 +365,11 @@ bool GetWantTextInput()
 	return io.WantTextInput;
 }
 
+void DockSpaceOverViewport()
+{
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+}
+
 // Fonts
 void SetGlobalFontFromFileTTF(const char *path, float size_pixels, float spacing_x, float spacing_y, float oversample_x, float oversample_y)
 {

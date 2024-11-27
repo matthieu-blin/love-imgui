@@ -67,6 +67,13 @@ static int w_NewFrame(lua_State *L)
 	return 0;
 }
 
+
+static int w_DockSpaceOverViewport(lua_State *L)
+{
+	DockSpaceOverViewport();
+	return 0;
+}
+
 // Util
 const char* getRealDirectoryIfExists(lua_State *L, const char* relativePath)
 {
@@ -964,6 +971,7 @@ static const struct luaL_Reg imguilib[] = {
 { "SetWindowCollapsed", w_SetWindowCollapsed },
 { "SetWindowFocus", w_SetWindowFocus },
 { "BeginChild", w_BeginChild },
+{ "DockSpaceOverViewport", w_DockSpaceOverViewport},
 
 // Implementation
 { "ShutDown", w_ShutDown },
