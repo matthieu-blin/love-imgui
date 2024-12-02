@@ -173,27 +173,6 @@ bool Init(lua_State *L)
 	g_keyMap["y"] = 18;
 	g_keyMap["z"] = 19;
 
-	io.KeyMap[ImGuiKey_Tab] = g_keyMap["tab"];        // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
-	io.KeyMap[ImGuiKey_LeftArrow] = g_keyMap["left"];
-	io.KeyMap[ImGuiKey_RightArrow] = g_keyMap["right"];
-	io.KeyMap[ImGuiKey_UpArrow] = g_keyMap["up"];
-	io.KeyMap[ImGuiKey_DownArrow] = g_keyMap["down"];
-	io.KeyMap[ImGuiKey_PageUp] = g_keyMap["pageup"];
-	io.KeyMap[ImGuiKey_PageDown] = g_keyMap["pagedown"];
-	io.KeyMap[ImGuiKey_Home] = g_keyMap["home"];
-	io.KeyMap[ImGuiKey_End] = g_keyMap["end"];
-	io.KeyMap[ImGuiKey_Delete] = g_keyMap["delete"];
-	io.KeyMap[ImGuiKey_Backspace] = g_keyMap["backspace"];
-	io.KeyMap[ImGuiKey_Enter] = g_keyMap["return"];
-	io.KeyMap[ImGuiKey_Escape] = g_keyMap["escape"];
-	io.KeyMap[ImGuiKey_A] = g_keyMap["a"];
-	io.KeyMap[ImGuiKey_C] = g_keyMap["c"];
-	io.KeyMap[ImGuiKey_V] = g_keyMap["v"];
-	io.KeyMap[ImGuiKey_X] = g_keyMap["x"];
-	io.KeyMap[ImGuiKey_Y] = g_keyMap["y"];
-	io.KeyMap[ImGuiKey_Z] = g_keyMap["z"];
-
-	io.RenderDrawListsFn = ImGui_Impl_RenderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
 	io.SetClipboardTextFn = ImGui_Impl_SetClipboardText;
 	io.GetClipboardTextFn = ImGui_Impl_GetClipboardText;
 
@@ -253,6 +232,12 @@ void NewFrame()
 	ImGui::NewFrame();
 }
 
+void Render()
+{
+	ImGui::Render();
+	ImGui_Impl_RenderDrawLists(ImGui::GetDrawData());
+}
+
 //
 // Inputs
 //
@@ -300,7 +285,7 @@ void KeyPressed(const char *key)
 		if (k == "kpenter")
 			k = "return";
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[g_keyMap[k]] = true;
+		io.AddKeyEvent((ImGuiKey)g_keyMap[k], true);
 		luaL_dostring(g_L, "return (love.keyboard.isDown('rshift') or love.keyboard.isDown('lshift'))");
 		bool down = lua_toboolean(g_L, 2) > 0;
 		io.KeyShift = down;
@@ -324,7 +309,7 @@ void KeyReleased(const char *key)
 		if (k == "kpenter")
 			k = "return";
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[g_keyMap[k.c_str()]] = false;
+		io.AddKeyEvent((ImGuiKey)g_keyMap[k],  false);
 		luaL_dostring(g_L, "return (love.keyboard.isDown('rshift') or love.keyboard.isDown('lshift'))");
 		bool down = lua_toboolean(g_L, 2) > 0;
 		io.KeyShift = down;
@@ -367,7 +352,7 @@ bool GetWantTextInput()
 
 void DockSpaceOverViewport()
 {
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
 }
 
 // Fonts

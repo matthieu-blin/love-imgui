@@ -7,6 +7,11 @@ endif()
 PROJECT(love-imgui)
 
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+IF(MEGALUAJIT_INCLUDE_DIR AND MEGALUAJIT_LIBRARY)
+	SET(DESIRED_LUA_INCLUDE_DIR ${MEGALUAJIT_INCLUDE_DIR })
+	SET(DESIRED_LUA_LIBRARY ${MEGALUAJIT_LIBRARY })
+ELSE()
 FIND_PACKAGE(LuaJIT)
 IF(NOT LUAJIT_FOUND)
 	FIND_PACKAGE(Lua 5.1 EXACT REQUIRED)
@@ -16,19 +21,22 @@ ELSE()
 	SET(DESIRED_LUA_INCLUDE_DIR ${LUAJIT_INCLUDE_DIR})
 	SET(DESIRED_LUA_LIBRARY ${LUAJIT_LIBRARY})
 ENDIF()
+ENDIF()
 
 ADD_LIBRARY(love-imgui
-	MODULE
+	SHARED
 	src/libimgui/imconfig.h
 	src/libimgui/imgui.cpp
 	src/libimgui/imgui.h
-	src/libimgui/imgui_draw.cpp
 	src/libimgui/imgui_demo.cpp
-	src/libimgui/imgui_widgets.cpp
+	src/libimgui/imgui_draw.cpp
 	src/libimgui/imgui_internal.h
-	src/libimgui/stb_rect_pack.h
-	src/libimgui/stb_textedit.h
-	src/libimgui/stb_truetype.h
+	src/libimgui/imgui_tables.cpp
+	src/libimgui/imgui_widgets.cpp
+	src/libimgui/imstb_rectpack.h
+	src/libimgui/imstb_textedit.h
+	src/libimgui/imstb_truetype.h
+	src/libimgui/imstb_truetype.h
 	src/imgui_impl.cpp
 	src/wrap_imgui_impl.cpp
 	src/imgui_impl.h

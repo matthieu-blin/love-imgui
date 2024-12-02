@@ -68,6 +68,13 @@ static int w_NewFrame(lua_State *L)
 }
 
 
+static int w_Render(lua_State* L)
+{
+	Render();
+	return 0;
+}
+
+
 static int w_DockSpaceOverViewport(lua_State *L)
 {
 	DockSpaceOverViewport();
@@ -976,6 +983,7 @@ static const struct luaL_Reg imguilib[] = {
 // Implementation
 { "ShutDown", w_ShutDown },
 { "NewFrame", w_NewFrame },
+{ "Render", w_Render },
 { "MouseMoved", w_MouseMoved },
 { "MousePressed", w_MousePressed },
 { "MouseReleased", w_MouseReleased },
@@ -1072,7 +1080,7 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, AllowTabInput, ImGuiInputTextFlags_AllowTabInput);
 	WRAP_ENUM(L, CtrlEnterForNewLine, ImGuiInputTextFlags_CtrlEnterForNewLine);
 	WRAP_ENUM(L, NoHorizontalScroll, ImGuiInputTextFlags_NoHorizontalScroll);
-	WRAP_ENUM(L, AlwaysInsertMode, ImGuiInputTextFlags_AlwaysInsertMode);
+	WRAP_ENUM(L, AlwaysInsertMode, ImGuiInputTextFlags_AlwaysOverwrite);
 	WRAP_ENUM(L, ReadOnly, ImGuiInputTextFlags_ReadOnly);
 	WRAP_ENUM(L, Password, ImGuiInputTextFlags_Password);
 	WRAP_ENUM(L, NoUndoRedo, ImGuiInputTextFlags_NoUndoRedo);
@@ -1091,7 +1099,7 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, ImGuiInputTextFlags_AllowTabInput, ImGuiInputTextFlags_AllowTabInput);
 	WRAP_ENUM(L, ImGuiInputTextFlags_CtrlEnterForNewLine, ImGuiInputTextFlags_CtrlEnterForNewLine);
 	WRAP_ENUM(L, ImGuiInputTextFlags_NoHorizontalScroll, ImGuiInputTextFlags_NoHorizontalScroll);
-	WRAP_ENUM(L, ImGuiInputTextFlags_AlwaysInsertMode, ImGuiInputTextFlags_AlwaysInsertMode);
+	WRAP_ENUM(L, ImGuiInputTextFlags_AlwaysOverwrite, ImGuiInputTextFlags_AlwaysOverwrite);
 	WRAP_ENUM(L, ImGuiInputTextFlags_ReadOnly, ImGuiInputTextFlags_ReadOnly);
 	WRAP_ENUM(L, ImGuiInputTextFlags_Password, ImGuiInputTextFlags_Password);
 	WRAP_ENUM(L, ImGuiInputTextFlags_NoUndoRedo, ImGuiInputTextFlags_NoUndoRedo);
@@ -1267,7 +1275,7 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
   	WRAP_ENUM(L, ImGuiKey_Space, ImGuiKey_Space);
   	WRAP_ENUM(L, ImGuiKey_Enter, ImGuiKey_Enter);
   	WRAP_ENUM(L, ImGuiKey_Escape, ImGuiKey_Escape);
-  	WRAP_ENUM(L, ImGuiKey_KeyPadEnter, ImGuiKey_KeyPadEnter);
+  	WRAP_ENUM(L, ImGuiKey_KeypadEnter, ImGuiKey_KeypadEnter);
   	WRAP_ENUM(L, ImGuiKey_A, ImGuiKey_A);
   	WRAP_ENUM(L, ImGuiKey_C, ImGuiKey_C);
   	WRAP_ENUM(L, ImGuiKey_V, ImGuiKey_V);
@@ -1276,25 +1284,7 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
   	WRAP_ENUM(L, ImGuiKey_Z, ImGuiKey_Z);
   	WRAP_ENUM(L, ImGuiKey_COUNT, ImGuiKey_COUNT);
 
-  	// ImGuiNavInput
-  	WRAP_ENUM(L, ImGuiNavInput_Activate, ImGuiNavInput_Activate);
-  	WRAP_ENUM(L, ImGuiNavInput_Cancel, ImGuiNavInput_Cancel);
-  	WRAP_ENUM(L, ImGuiNavInput_Input, ImGuiNavInput_Input);
-  	WRAP_ENUM(L, ImGuiNavInput_Menu, ImGuiNavInput_Menu);
-  	WRAP_ENUM(L, ImGuiNavInput_DpadLeft, ImGuiNavInput_DpadLeft);
-  	WRAP_ENUM(L, ImGuiNavInput_DpadRight, ImGuiNavInput_DpadRight);
-  	WRAP_ENUM(L, ImGuiNavInput_DpadUp, ImGuiNavInput_DpadUp);
-  	WRAP_ENUM(L, ImGuiNavInput_DpadDown, ImGuiNavInput_DpadDown);
-  	WRAP_ENUM(L, ImGuiNavInput_LStickLeft, ImGuiNavInput_LStickLeft);
-  	WRAP_ENUM(L, ImGuiNavInput_LStickRight, ImGuiNavInput_LStickRight);
-  	WRAP_ENUM(L, ImGuiNavInput_LStickUp, ImGuiNavInput_LStickUp);
-  	WRAP_ENUM(L, ImGuiNavInput_LStickDown, ImGuiNavInput_LStickDown);
-  	WRAP_ENUM(L, ImGuiNavInput_FocusPrev, ImGuiNavInput_FocusPrev);
-  	WRAP_ENUM(L, ImGuiNavInput_FocusNext, ImGuiNavInput_FocusNext);
-  	WRAP_ENUM(L, ImGuiNavInput_TweakSlow, ImGuiNavInput_TweakSlow);
-  	WRAP_ENUM(L, ImGuiNavInput_TweakFast, ImGuiNavInput_TweakFast);
-
-  	// ImGuiConfigFlags
+	// ImGuiConfigFlags
   	WRAP_ENUM(L, ImGuiConfigFlags_None, ImGuiConfigFlags_None);
   	WRAP_ENUM(L, ImGuiConfigFlags_NavEnableKeyboard, ImGuiConfigFlags_NavEnableKeyboard);
   	WRAP_ENUM(L, ImGuiConfigFlags_NavEnableGamepad, ImGuiConfigFlags_NavEnableGamepad);
@@ -1361,7 +1351,7 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, PlotHistogram, ImGuiCol_PlotHistogram);
 	WRAP_ENUM(L, PlotHistogramHovered, ImGuiCol_PlotHistogramHovered);
 	WRAP_ENUM(L, TextSelectedBg, ImGuiCol_TextSelectedBg);
-	WRAP_ENUM(L, ModalWindowDarkening, ImGuiCol_ModalWindowDarkening);
+	WRAP_ENUM(L, ModalWindowDimBg, ImGuiCol_ModalWindowDimBg);
 	WRAP_ENUM(L, DragDropTarget, ImGuiCol_DragDropTarget);
 
 	WRAP_ENUM(L, ImGuiCol_Text, ImGuiCol_Text);
@@ -1412,7 +1402,6 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, ImGuiCol_PlotHistogram, ImGuiCol_PlotHistogram);
 	WRAP_ENUM(L, ImGuiCol_PlotHistogramHovered, ImGuiCol_PlotHistogramHovered);
 	WRAP_ENUM(L, ImGuiCol_TextSelectedBg, ImGuiCol_TextSelectedBg);
-	WRAP_ENUM(L, ImGuiCol_ModalWindowDarkening, ImGuiCol_ModalWindowDarkening);
 	WRAP_ENUM(L, ImGuiCol_DragDropTarget, ImGuiCol_DragDropTarget);
 	WRAP_ENUM(L, ImGuiCol_NavHighlight, ImGuiCol_NavHighlight);
 	WRAP_ENUM(L, ImGuiCol_NavWindowingHighlight, ImGuiCol_NavWindowingHighlight);
@@ -1477,9 +1466,9 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, AlphaPreview, ImGuiColorEditFlags_AlphaPreview);
 	WRAP_ENUM(L, AlphaPreviewHalf, ImGuiColorEditFlags_AlphaPreviewHalf);
 	WRAP_ENUM(L, HDR, ImGuiColorEditFlags_HDR);
-	WRAP_ENUM(L, RGB, ImGuiColorEditFlags_RGB);
-	WRAP_ENUM(L, HSV, ImGuiColorEditFlags_HSV);
-	WRAP_ENUM(L, HEX, ImGuiColorEditFlags_HEX);
+	WRAP_ENUM(L, RGB, ImGuiColorEditFlags_DisplayRGB);
+	WRAP_ENUM(L, HSV, ImGuiColorEditFlags_DisplayHSV);
+	WRAP_ENUM(L, HEX, ImGuiColorEditFlags_DisplayHex);
 	WRAP_ENUM(L, Uint8, ImGuiColorEditFlags_Uint8);
 	WRAP_ENUM(L, Float, ImGuiColorEditFlags_Float);
 	WRAP_ENUM(L, PickerHueBar, ImGuiColorEditFlags_PickerHueBar);
@@ -1500,11 +1489,11 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreview);
 	WRAP_ENUM(L, ImGuiColorEditFlags_AlphaPreviewHalf, ImGuiColorEditFlags_AlphaPreviewHalf);
 	WRAP_ENUM(L, ImGuiColorEditFlags_HDR, ImGuiColorEditFlags_HDR);
-	WRAP_ENUM(L, ImGuiColorEditFlags_RGB, ImGuiColorEditFlags_RGB);
 	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayRGB, ImGuiColorEditFlags_DisplayRGB);
-	WRAP_ENUM(L, ImGuiColorEditFlags_HSV, ImGuiColorEditFlags_HSV);
+	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayRGB, ImGuiColorEditFlags_DisplayRGB);
+	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayHSV, ImGuiColorEditFlags_DisplayHSV);
   	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayHSV, ImGuiColorEditFlags_DisplayHSV);
-	WRAP_ENUM(L, ImGuiColorEditFlags_HEX, ImGuiColorEditFlags_HEX);
+	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayHex, ImGuiColorEditFlags_DisplayHex);
 	WRAP_ENUM(L, ImGuiColorEditFlags_DisplayHex, ImGuiColorEditFlags_DisplayHex);
 	WRAP_ENUM(L, ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Uint8);
 	WRAP_ENUM(L, ImGuiColorEditFlags_Float, ImGuiColorEditFlags_Float);
@@ -1512,7 +1501,6 @@ extern "C" LOVE_IMGUI_EXPORT int luaopen_imgui(lua_State *L)
 	WRAP_ENUM(L, ImGuiColorEditFlags_PickerHueWheel, ImGuiColorEditFlags_PickerHueWheel);
 	WRAP_ENUM(L, ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputRGB);
 	WRAP_ENUM(L, ImGuiColorEditFlags_InputHSV, ImGuiColorEditFlags_InputHSV);
-	WRAP_ENUM(L, ImGuiColorEditFlags__OptionsDefault, ImGuiColorEditFlags__OptionsDefault);
 
 
 	// ImGuiMouseCursor
