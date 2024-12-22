@@ -1,3 +1,10 @@
+Fork with imgui 1.97 + love 11/12
+
+use DockSpaceOverViewport to enable docking straigth from the start 
+
+
+# Original readme 
+==================
 # LOVE-IMGUI
 
 [imgui](https://github.com/ocornut/imgui) module for the [LÖVE](https://love2d.org/) game engine including lua bindings based on this [project](https://github.com/patrickriordan/imgui_lua_bindings).
